@@ -15,7 +15,7 @@ apt install dnsdist -y
 
 # Install Python
 
-apt install python3 python3-flask python3-dotenv
+apt install python3 python3-flask python3-dotenv -y
 
 
 # Install Docker
@@ -35,7 +35,7 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
 apt update
-apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 
 # Install Nginx
@@ -50,7 +50,7 @@ https://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
     | tee /etc/apt/sources.list.d/nginx.list	
 
 apt update
-apt install nginx 
+apt install nginx -y
 
 
 
