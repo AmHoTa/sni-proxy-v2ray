@@ -9,6 +9,9 @@ Dnsdist (v2 and above only) - Docker - Python3 - Nginx (Optional)
 3- Path for sni dashboard is http://IP_ADDR:5000/sni-admin if you dont use NGINX. <br>
 4- Stop the systemd-resolved.service <br>
 5- Must enter an ip address or range in the whitelisted IPs in CIDR notation! 0.0.0.0/0 For everyone<br> 
+6- the script only works for UBUNTU 24.04 LTS to install packages. and will disable nginx dnsdist & systemd-resolved. <br> 
+
+
 
 # Environment Variables:
 
