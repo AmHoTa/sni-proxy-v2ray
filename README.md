@@ -8,6 +8,7 @@ Dnsdist (v2 and above only) - Docker - Python3 - Nginx (Optional)
 2- Install App Requirements in app directory. <br>
 3- Path for sni dashboard is http://IP_ADDR:5000/sni-admin if you dont use NGINX. <br>
 4- Stop the systemd-resolved.service <br>
+5- Must enter an ip address or range in the whitelisted IPs in CIDR notation! 0.0.0.0/0 For everyone<br> 
 
 # Environment Variables:
 
