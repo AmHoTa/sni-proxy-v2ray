@@ -27,7 +27,7 @@ git clone https://github.com/AmHoTa/sni-proxy-v2ray /root/sni-proxy
 cd /root/sni-proxy
 nohup python3 app/app.py > /dev/null &
 docker network create --subnet 192.168.25.0/24 --gateway 192.168.25.254 sninet
-docker build .
+docker compose build
 docker compose up
 ```
 
