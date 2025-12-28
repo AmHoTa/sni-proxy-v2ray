@@ -23,6 +23,8 @@ Dnsdist (v2 and above only) - Docker - Python3 - Nginx (Optional)
 # Setup
 
 ```bash
+git clone https://github.com/AmHoTa/sni-proxy-v2ray /root/sni-proxy
+cd /root/sni-proxy
 python3 app/app.py & > /dev/nulll
 docker network create --subnet 192.168.25.0/24 --gateway 192.168.25.254 sninet
 docker build .
