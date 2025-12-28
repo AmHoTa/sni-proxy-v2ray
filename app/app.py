@@ -19,7 +19,7 @@ USE_NGINX = dotenv_values()['USE_NGINX']
 PASSWORD = dotenv_values()['PASSWORD']
 DNSDIST_CONFIG_PATH = "/etc/dnsdist/dnsdist.conf"
 DNSMASQ_CONFIG_PATH = "/root/sni-proxy/dnsmasq.conf"
-SECRET_LOGIN_PATH = "/dns-admin/"
+SECRET_LOGIN_PATH = "/sni-admin/"
 DNSDIST_WEB_IP = "127.0.0.1" if int(USE_NGINX) else "0.0.0.0"
 FLASK_IP = "127.0.0.1" if int(USE_NGINX) else "0.0.0.0"
 print(bool(USE_NGINX))
