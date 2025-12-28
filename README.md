@@ -1,0 +1,28 @@
+# Requirements:
+
+Dnsdist (v2 and above only) - Docker - Python3 - Nginx (Optional)
+
+# Notes:
+
+1- Replace The v2ray outbound in config.json file with your v2ray outbound configuration.
+2- Install App Requirements in app directory.
+3- Path for sni dashboard is http://IP_ADDR:5000/sni-admin if you dont use NGINX
+4- Stop the systemd-resolved.service 
+
+# Environment Variables:
+
+- Replace SNI_HOST_IP   in .env file inside root dir.
+- Replace SNI_HOST_IP   in app directory .env file.
+- Replace USE_NGINX     in app directory .env file if you use nginx as reverse proxy -> 1 else 0
+- Replace PASSWORD      in app directory .env file for your sni-admin dashboard.
+
+# Setup
+
+nohup python3 app/app.py & > /dev/nulll
+docker network create --subnet 192.168.25.0/24 --gateway 192.168.25.254 sninet
+docker build .
+docker compose up
+
+
+
+Big Thanks to ShervinAMD for his work.

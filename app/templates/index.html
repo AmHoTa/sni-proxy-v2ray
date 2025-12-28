@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subnet Editor</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --status-bg: #f0fdf4;
+            --status-border: #bbf7d0;
+            --status-text: #166534;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 350px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+            box-sizing: border-box;
+            background-color: #fcfcfc;
+            color: #334155;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            margin-top: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .status {
+            max-width: 1200px;
+            margin: 32px auto;
+            background-color: var(--status-bg);
+            border: 1px solid var(--status-border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .status h3 {
+            color: var(--status-text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status h3::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #22c55e;
+            border-radius: 50%;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: var(--status-text);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .column {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SNI Dashboard</h1>
+    </div>
+
+    <div class="container">
+        <!-- Left Column -->
+        <form class="column" action="/submit_left" method="post">
+            <h3>Whitelisted Subnets</h3>
+            <textarea name="left_textarea" placeholder="Enter IP ranges (one per line)...">{{ left_text }}</textarea>
+            <button type="submit">Save Whitelist</button>
+        </form>
+
+        <!-- Right Column -->
+        <form class="column" action="/submit_right" method="post">
+            <h3>Proxied Domains</h3>
+            <textarea name="right_textarea" placeholder="Enter domains (one per line)...">{{ right_text }}</textarea>
+            <button type="submit">Save Domains</button>
+        </form>
+    </div>
+
+    <!-- Health Status Section -->
+    <div class="status">
+        <h3>System Health Status</h3>
+        <pre>{{ health_status }}</pre>
+    </div>
+
+</body>
+</html>

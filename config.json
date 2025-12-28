@@ -1,0 +1,49 @@
+{
+    "log": {
+        "access": "",
+        "error": "",
+        "loglevel": "error"
+    },
+    "inbounds": [
+        {
+            "tag": "socks-in",
+            "port": 1080,
+            "listen": "::",
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            }
+        },
+        {
+            "tag": "http-in",
+            "port": 1081,
+            "listen": "::",
+            "protocol": "http"
+        }
+    ],
+  "outbounds": [
+    // REPLACE YOUR V2ray Configuration OUTBOUND HERE object here
+  ],
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private",
+                    "geoip:cn"
+                ],
+                "outboundTag": "direct"
+            },
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:cn"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    }
+}

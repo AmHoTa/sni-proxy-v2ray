@@ -1,0 +1,79 @@
+name: sni-proxy-v2ray
+services:
+  dnsproxy:
+    image: dnsproxy:v1
+    container_name: dnsproxy
+    build:
+      context: .
+      dockerfile: dnsproxy.Dockerfile
+    environment:
+      # IP and port of the SOCKS5 Proxy server (V2ray Client)
+      - SOCKS_IP=${V2RAY_CONTAINER_IP}
+      - SOCKS_PORT=${SOCKS_SERVICE_PORT}
+    volumes:
+      - $PWD/dnsproxy-config.yaml:/service/config.yaml
+    extra_hosts:
+      - "cloudflare-dns.com:104.16.248.249"
+      - "dns.google:8.8.8.8"
+      - "dns.adguard.com:94.140.14.14"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    dns: 1.1.1.1
+    networks:
+      sninet:
+        ipv4_address: ${DNS_PROXY_CONTAINER_IP}
+    depends_on:
+      - v2ray
+    restart: always
+  sni:
+    image: sni-proxy:v1
+    build:
+      context: .
+      dockerfile: sni.Dockerfile
+    container_name: sni
+    environment:
+      # IP of the SNI service (Docker host's IP address)
+      - SNI_HOST_IP=${SNI_HOST_IP}
+      # IP of the dnsproxy
+      - DNS_PROXY_IP=${DNS_PROXY_CONTAINER_IP}
+      # IP and port of the SOCKS5 Proxy server (V2ray Client)
+      - SOCKS_IP=${V2RAY_CONTAINER_IP}
+      - SOCKS_PORT=${SOCKS_SERVICE_PORT}
+    volumes:
+      - $PWD/dnsmasq.conf:/etc/dnsmasq.sample
+      - $PWD/sniproxy.conf:/etc/sniproxy.sample
+    ports:
+      - "${SNI_HOST_IP}:530:53"
+      - "${SNI_HOST_IP}:530:53/udp"
+      - "${SNI_HOST_IP}:80:80"
+      - "${SNI_HOST_IP}:443:443"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      sninet:
+        ipv4_address: ${SNI_CONTAINER_IP}
+    depends_on:
+      - dnsproxy
+    restart: unless-stopped
+
+  v2ray:
+    image: v2rayc:v1
+    container_name: v2ray
+    build:
+      context: .
+      dockerfile: v2ray.Dockerfile
+    volumes:
+      - $PWD/config.json:/v2ray/config.json
+    dns: 1.1.1.1
+    networks:
+      sninet:
+        ipv4_address: ${V2RAY_CONTAINER_IP}
+    restart: unless-stopped
+
+networks:
+  sninet:
+    external: true
